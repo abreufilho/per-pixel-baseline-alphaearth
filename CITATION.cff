@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+message: "If you use this code or research package, please cite it as below."
+type: software
+title: >-
+  A Per-Pixel Baseline Overstates the AlphaEarth Embedding's Advantage: A Context-Matched Test on Small-Parcel Coffee Boundary Delineation (research package)
+authors:
+  - family-names: "Abreu Filho"
+    given-names: "Antônio Campos de"
+    orcid: "https://orcid.org/0009-0007-1615-2315"
+    affiliation: "Universidade Federal de Minas Gerais (UFMG)"
+  - family-names: "Leitão"
+    given-names: "Rodrigo Machado Fernandes"
+    orcid: "https://orcid.org/0000-0002-8470-5619"
+    affiliation: "Independent Researcher"
+  - family-names: "Timbó Elmiro"
+    given-names: "Marcos Antônio"
+    orcid: "https://orcid.org/0000-0001-7680-3131"
+    affiliation: "Universidade Federal de Minas Gerais (UFMG)"
+  - family-names: "Nero"
+    given-names: "Marcelo Antonio"
+    orcid: "https://orcid.org/0000-0003-2124-5018"
+    affiliation: "Universidade Federal de Minas Gerais (UFMG)"
+repository-code: "https://github.com/abreufilho/per-pixel-baseline-alphaearth"
+url: "https://per-pixel-baseline-alphaearth.abreufilho.com.br"
+license: MIT
+abstract: >-
+  Research package (reproducible pipeline, confirmatory protocol and figure code) for
+  a study of small-parcel coffee boundary delineation in Minas Gerais, Brazil (2017),
+  using CONAB/fiboa br_conab reference parcels. Identical Random Forest and linear
+  probes predict boundary probability from seasonal Sentinel-2, seasonal Sentinel-1
+  plus Sentinel-2, the AlphaEarth annual embedding and their fusion, per pixel and
+  with the same four neighborhood features (local mean, local standard deviations, gradient)
+  for every input; watershed and region-merging decoders extract parcel objects. The
+  neighborhood-feature control was fixed in a written protocol and tested on 48 new
+  tiles from 36 unused regions: per pixel the embedding ranks boundary pixels better
+  (Boundary AP 0.579 vs 0.449), but with identical neighborhood features seasonal Sentinel-2
+  exceeds the embedding
+  at exact one-pixel boundary localization (0.664 vs 0.610; Hodges-Lehmann difference -0.052, 95% CI
+  -0.063 to -0.043); with a one-pixel tolerance the two tie. In this setting, the per-pixel baseline overstated the embedding's advantage. Includes
+  reference extraction, tile sampling, Earth Engine download, probing, decoding,
+  paired statistics (non-superiority, TOST), the protocol with the ordered
+  confirmatory tile list and frozen thresholds, per-tile results, and figure generation. Intermediate
+  data are regenerable from the code with fixed seeds.
+keywords:
+  - Field boundary delineation
+  - foundation model embeddings
+  - Sentinel-2
+  - spatial context
+  - AlphaEarth
+doi: 10.5281/zenodo.24330614
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24330614
+    description: Concept DOI (all versions)
+version: "1.1.0"
+date-released: "2026-11-18"

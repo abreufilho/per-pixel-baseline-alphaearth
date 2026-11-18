@@ -1,0 +1,5 @@
+experiment,object_recall,mean_iou,over_seg,under_seg,rel_area_error_detected,boundary_precision,boundary_recall,boundary_f1,boundary_ap
+E1,0.12,0.292,0.493,0.413,0.254,0.502,0.712,0.576,0.406
+E2,0.176,0.307,0.462,0.442,0.235,0.52,0.687,0.578,0.424
+E3,0.155,0.284,0.242,0.635,0.232,0.663,0.458,0.534,0.524
+E4,0.17,0.282,0.229,0.628,0.311,0.693,0.484,0.556,0.529

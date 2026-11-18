@@ -1,0 +1,18 @@
+services:
+  pipeline:
+    build:
+      context: .
+    image: alphaearth-mg-pipeline:latest
+    working_dir: /work
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
+    environment:
+      ALPHAEARTH_MG_DATA: /work/data
+      EE_PROJECT: ${EE_PROJECT:-}
+      HOME: /tmp/home
+      XDG_CACHE_HOME: /tmp/.cache
+      MPLCONFIGDIR: /tmp/matplotlib
+      PYTHONPATH: /work/code
+    volumes:
+      - .:/work
+      - ${HOME}/.config/earthengine:/tmp/home/.config/earthengine
+    command: ["python", "code/check_artifacts.py"]
