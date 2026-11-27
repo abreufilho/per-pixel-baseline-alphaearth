@@ -7,9 +7,11 @@ Gera em manuscript/figures/:
   pelos 80 tiles originais (excluídas do sorteio confirmatório), os 80 tiles originais
   por partição train/val/test e os candidatos confirmatórios
   (docs/protocol/confirm_tiles.geojson; com data/confirm/tiles/split.json, "test" cheio e
-  não usados vazados); (b) localização de MG no Brasil; (c) histograma da área das parcelas.
+  não usados vazados); (b) histograma da área das parcelas.
+Sem painel de localização no Brasil: nenhum painel excede a extensão de MG (exigência
+de jurisdictional claims da Elsevier).
 
-Contornos Brasil/MG em code/assets/: API de malhas v3 do IBGE (qualidade "minima",
+Contorno de MG em code/assets/: API de malhas v3 do IBGE (qualidade "minima",
 estado 31 = MG), obtidos em 2026-07-05; dados públicos do IBGE, CRS EPSG:4674
 (graus, compatível com os tiles).
 
@@ -90,13 +92,13 @@ def fig_study_area() -> None:
     tiles["split"] = tiles["tile_id"].map(split)
     parcels = pd.read_parquet(REF, columns=["lon", "lat", "area_ha"])
     mg = gpd.read_file(ASSETS / "ibge_mg_uf.geojson")
-    br = gpd.read_file(ASSETS / "ibge_br_pais.geojson")
 
     fig = plt.figure(figsize=(FULL_W, 4.4))
     gs = fig.add_gridspec(2, 2, width_ratios=(2.5, 1.0), height_ratios=(0.85, 1.15),
                           wspace=0.18, hspace=0.34)
     ax = fig.add_subplot(gs[:, 0])
-    ax_loc = fig.add_subplot(gs[0, 1])
+    ax_leg = fig.add_subplot(gs[0, 1])
+    ax_leg.set_axis_off()
     ax_hist = fig.add_subplot(gs[1, 1])
 
     # (a) mapa principal
@@ -130,9 +132,9 @@ def fig_study_area() -> None:
     handles, labels = ax.get_legend_handles_labels()
     handles.append(Rectangle((0, 0), 1, 1, facecolor=CELL_FILL, edgecolor="none"))
     labels.append(f"0.5° cells with original tiles (n={len(cells)})")
-    ax.legend(handles, labels, loc="upper left", bbox_to_anchor=(0.0, -0.08), ncols=2,
-              frameon=False, fontsize=6.8, handletextpad=0.4, labelspacing=0.3,
-              columnspacing=1.2, borderaxespad=0.0)
+    ax_leg.legend(handles, labels, loc="upper left", bbox_to_anchor=(-0.08, 1.02),
+                  frameon=False, fontsize=6.8, handletextpad=0.4, labelspacing=0.45,
+                  borderaxespad=0.0)
     ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{abs(v):g}°W"))
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{abs(v):g}°S"))
     ax.tick_params(labelsize=7)
@@ -149,18 +151,7 @@ def fig_study_area() -> None:
     cbar.outline.set_linewidth(0.6)
     panel_label(ax, "(a)")
 
-    # (b) localização
-    br.plot(ax=ax_loc, facecolor="#f0efe9", edgecolor=AXIS, linewidth=0.6)
-    mg.plot(ax=ax_loc, facecolor="#b6b0d8", edgecolor=INK2, linewidth=0.7)
-    ax_loc.annotate("Minas Gerais", xy=(-44.5, -18.5), xytext=(-38.5, -27.0),
-                    fontsize=7.5, color=INK2, ha="center",
-                    arrowprops=dict(arrowstyle="-", color=MUTED, linewidth=0.6))
-    ax_loc.text(-60.0, -3.0, "Brazil", fontsize=7.5, color=MUTED, ha="center")
-    ax_loc.set_aspect("equal")
-    ax_loc.set_axis_off()
-    panel_label(ax_loc, "(b)")
-
-    # (c) histograma de área — distribuição completa (modo de slivers visível),
+    # (b) histograma de área — distribuição completa (modo de slivers visível),
     # corte de 1 px marcado e mediana dos talhões avaliados (≥ 1 px)
     kept = parcels.loc[parcels["area_ha"] >= 0.01, "area_ha"]
     med = float(kept.median())
@@ -182,7 +173,7 @@ def fig_study_area() -> None:
     ax_hist.tick_params(labelsize=7)
     for side in ("top", "right"):
         ax_hist.spines[side].set_visible(False)
-    panel_label(ax_hist, "(c)")
+    panel_label(ax_hist, "(b)")
 
     save(fig, "fig_study_area")
 

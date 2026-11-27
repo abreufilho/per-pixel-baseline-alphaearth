@@ -52,5 +52,5 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.24330614
     description: Concept DOI (all versions)
-version: "1.1.0"
-date-released: "2026-11-18"
+version: "1.2.0"
+date-released: "2026-11-27"
